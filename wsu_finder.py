@@ -1,4 +1,5 @@
 import sys
+import argparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -10,8 +11,18 @@ ENDPOINT = "https://livingat.wsu.edu/cardinfo/deposit/default.aspx?mode=CC"
 s = requests.session()
 
 
+class Student:
+    def __init__(self, wsu_id, name, birthday):
+        self.wsu_id = wsu_id
+        self.name = name
+        self.birthday = birthday
+
+    def __str__(self):
+        return f"{self.wsu_id} -> {self.name} - Born {self.birthday}"
+
+
 # TODO: Async requests
-def get_info_for_wsu_id(wsu_id):
+def lookup_wsu_id(wsu_id):
     response = s.get(ENDPOINT)
     bs = BeautifulSoup(response.text, 'html.parser')
 
@@ -43,19 +54,20 @@ def get_info_for_wsu_id(wsu_id):
             # We hit the jackpot
             bs = BeautifulSoup(response.text, 'html.parser')
             name = bs.find(id="ctl00_mainContent_lblName").text.lstrip(" - ")
-            return name, birthday
+            return Student(wsu_id, name, birthday)
     else:
         raise ValueError(f"{wsu_id} has no birthday! It probably doesn't exist")
 
 
 def main():
-    try:
-        print(get_info_for_wsu_id(sys.argv[1]))
-    except IndexError:
-        print("Usage: python wsu_finder.py wsu_id")
-    except Exception:
-        print(f"Invalid argument {sys.argv[1]}")
-        raise
+    parser = argparse.ArgumentParser()
+    parser.add_argument('wsu_ids', action='append', nargs='+')
+
+    args = parser.parse_args(sys.argv)
+
+    for wsu_id in args.wsu_ids:
+        student = lookup_wsu_id(wsu_id)
+        print(student)
 
 
 if __name__ == '__main__':
