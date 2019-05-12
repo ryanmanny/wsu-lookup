@@ -3,7 +3,8 @@ import calendar
 
 
 class Birthday(namedtuple('Birthday', 'month day')):
-    pass
+    def __str__(self):
+        return f"Birthday <Month: {self.month}, Day: {self.day}>"
 
 
 BIRTHDAYS = [  # All possible birthdays
