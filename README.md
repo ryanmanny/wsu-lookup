@@ -6,4 +6,4 @@ If any staff of the university wants me to take this repo down, so that they can
 I do not endorse using this program for nefarious purposes. This exists only as proof of dangerous (and potentially illegally negligent) issues with the WSU website
 
 ## TODO:
-- Asynchronous requests for speed boost
+- Dehacky async stuff
