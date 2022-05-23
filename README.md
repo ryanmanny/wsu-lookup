@@ -6,4 +6,4 @@ If any staff of the university wants me to take this repo down, so that they can
 I do not endorse using this program for nefarious purposes, I have only ever tested it on my own ID number during development. This exists only as proof of potentially illegally negligent issues with the WSU website.
 
 ## TODO:
-- Look into some more speed improvements (although it's pretty fast with async)
+- Requests-futures

@@ -1,17 +1,26 @@
-from collections import namedtuple
-import calendar
+import csv
+
+from dataclasses import dataclass
+from calendar import monthrange
 
 
-class Birthday(namedtuple('Birthday', 'month day')):
-    def __str__(self):
-        return f"Birthday <Month: {self.month}, Day: {self.day}>"
+BIRTHDAY_DATA_PATH = 'data/fivethirtyeight-US-births-2000-2014.csv'
 
+@dataclass
+class Birthday:
+    month: int
+    day: int
 
-BIRTHDAYS = [  # All possible birthdays
+with open(BIRTHDAY_DATA_PATH, 'r') as f:
+    birthdays = list(csv.DictReader(f))
+    birthdays.sort(key=lambda row: int(row['births']), reverse=True)
+    for birthday in birthdays:
+        birthday['day'] = birthday.pop('date_of_month')
+
+EVERY_BIRTHDAY = [
     Birthday(
-        str(month).zfill(2),  # Servers reject "1" for "01", frightening
-        str(day).zfill(2),
-    )
-    for month in range(1, 13)  # January to December
-    for day in calendar.Calendar(0).itermonthdays(2000, month) if day != 0
+        # Form rejects "1" for "01", frightening
+        str(birthday['month']).zfill(2),
+        str(birthday['day']).zfill(2),
+    ) for birthday in birthdays
 ]

@@ -7,7 +7,7 @@ import requests
 import aiohttp
 from bs4 import BeautifulSoup
 
-from birthdays import BIRTHDAYS
+from birthdays import EVERY_BIRTHDAY
 
 ENDPOINT = "https://livingat.wsu.edu/cardinfo/deposit/default.aspx?mode=CC"
 
@@ -72,7 +72,7 @@ async def lookup_wsu_id(wsu_id):
 
     checks = [
         check_birthday(copy(form_data), wsu_id, birthday)
-        for birthday in BIRTHDAYS
+        for birthday in EVERY_BIRTHDAY
     ]
     await asyncio.wait(checks, return_when=asyncio.FIRST_COMPLETED)
 
