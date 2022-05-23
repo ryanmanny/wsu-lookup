@@ -1,26 +1,37 @@
+from collections import defaultdict
 import csv
-
 from dataclasses import dataclass
-from calendar import monthrange
 
 
 BIRTHDAY_DATA_PATH = 'data/fivethirtyeight-US-births-2000-2014.csv'
 
 @dataclass
 class Birthday:
-    month: int
-    day: int
+    month: str
+    day: str
+
+    def __str__(self):
+        return f"{self.month}/{self.day}"
 
 with open(BIRTHDAY_DATA_PATH, 'r') as f:
-    birthdays = list(csv.DictReader(f))
-    birthdays.sort(key=lambda row: int(row['births']), reverse=True)
-    for birthday in birthdays:
-        birthday['day'] = birthday.pop('date_of_month')
+    births_by_day = defaultdict(lambda: 0)
 
-EVERY_BIRTHDAY = [
+    for date in csv.DictReader(f):
+        birthday_key = (date['month'], date['date_of_month'])
+        births_by_day[birthday_key] += int(date['births'])
+
+    ordered_birthdays = [
+        birthday for birthday, _ in sorted(
+            list(births_by_day.items()),
+            key=lambda x: int(x[1]),
+            reverse=True,
+        )
+    ]
+
+ALL_BIRTHDAYS = [
     Birthday(
         # Form rejects "1" for "01", frightening
-        str(birthday['month']).zfill(2),
-        str(birthday['day']).zfill(2),
-    ) for birthday in birthdays
+        str(birthday[0]).zfill(2),
+        str(birthday[1]).zfill(2),
+    ) for birthday in ordered_birthdays
 ]

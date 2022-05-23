@@ -1,9 +1,7 @@
 # WSU Name Lookup
-Uses a [WSU endpoint](https://livingat.wsu.edu/cardinfo/deposit/default.aspx?mode=CC) to find student's names and birthdays from WSU ID
 
-If any staff of the university wants me to take this repo down, so that they can remove this reverse lookup feature, please email me and I will do so immediately.
+Bruteforces a [leaky WSU page](https://livingat.wsu.edu/cardinfo/deposit/default.aspx) to discover a student's name and birthday using only their WSU ID.
 
-I do not endorse using this program for nefarious purposes, I have only ever tested it on my own ID number during development. This exists only as proof of potentially illegally negligent issues with the WSU website.
+I do not endorse using this program for nefarious purposes, it was developed only as proof of an unintended feature of the WSU website which has existed for many years.
 
-## TODO:
-- Requests-futures
+If any university staff want me to take this repo down, please email me.
