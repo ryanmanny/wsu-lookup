@@ -76,7 +76,7 @@ def check_birthday(r) -> bool | str:
         raise RuntimeError("Unexpected page format")
 
 
-async def get_student_by_id(wsu_id):
+async def get_student_by_id(wsu_id, quiet=False):
     hidden_inputs = get_hidden_inputs()
 
     all_birthdays = get_all_birthdays()
@@ -85,7 +85,7 @@ async def get_student_by_id(wsu_id):
         for birthday in all_birthdays
     ]
 
-    with tqdm(total=len(all_birthdays)) as progress:
+    with tqdm(total=len(all_birthdays), disable=quiet) as progress:
         for i, request in enumerate(as_completed(checks)):
             progress.update(1)
 
