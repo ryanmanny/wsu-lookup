@@ -1,10 +1,10 @@
 import asyncio
 from concurrent.futures import as_completed
-from multiprocessing.sharedctypes import Value
 from requests_futures.sessions import FuturesSession
 
 from dataclasses import dataclass
 import sys
+from textwrap import dedent
 
 from bs4 import BeautifulSoup
 import requests
@@ -24,6 +24,16 @@ class Student:
     wsu_id: str
     name: str
     birthday: Birthday
+
+    def __str__(self):
+        return dedent(
+            f"""\
+            Student:
+                WSU ID   : {self.wsu_id}
+                Name     : {self.name}
+                Birthday : {self.birthday}\
+            """
+        )
 
 
 def get_hidden_inputs():

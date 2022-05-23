@@ -10,4 +10,3 @@ If any university staff want me to take this repo down, please email me.
 # TODO
 
 - Fix hang at the end of execution
-- Improve text output
