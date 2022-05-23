@@ -1,25 +1,23 @@
 import asyncio
 
 from copy import copy
+from dataclasses import dataclass
 import sys
 
-import requests
 import aiohttp
 from bs4 import BeautifulSoup
+import requests
 
-from birthdays import EVERY_BIRTHDAY
+from birthdays import EVERY_BIRTHDAY, Birthday
 
 ENDPOINT = "https://livingat.wsu.edu/cardinfo/deposit/default.aspx?mode=CC"
 
 
+@dataclass
 class Student:
-    def __init__(self, wsu_id, name, birthday):
-        self.wsu_id = wsu_id
-        self.name = name
-        self.birthday = birthday
-
-    def __str__(self):
-        return f"{self.wsu_id} -> {self.name} {self.birthday}"
+    wsu_id: str
+    name: str
+    birthday: Birthday
 
 
 def get_inputs():
