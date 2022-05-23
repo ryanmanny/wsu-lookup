@@ -1,16 +1,14 @@
-import asyncio
 from concurrent.futures import as_completed
 from requests_futures.sessions import FuturesSession
 
 from dataclasses import dataclass
-import sys
 from textwrap import dedent
 
 from bs4 import BeautifulSoup
 import requests
 from tqdm import tqdm
 
-from birthdays import get_all_birthdays, Birthday
+from .birthdays import get_all_birthdays, Birthday
 
 
 CC_BASE_URL = 'https://livingat.wsu.edu/cardinfo/deposit/default.aspx'
@@ -78,7 +76,7 @@ def check_birthday(r) -> bool | str:
         raise RuntimeError("Unexpected page format")
 
 
-async def lookup_wsu_ids(wsu_id):
+async def get_student_by_id(wsu_id):
     hidden_inputs = get_hidden_inputs()
 
     all_birthdays = get_all_birthdays()
@@ -109,14 +107,3 @@ async def lookup_wsu_ids(wsu_id):
             print(f"No results found for {wsu_id}")
 
     return student
-
-
-def main():
-    for arg in sys.argv[1:]:
-        print(f"Processing {arg}")
-        student = asyncio.run(lookup_wsu_ids(arg))
-        print(f"Found {student}")
-
-
-if __name__ == '__main__':
-    main()

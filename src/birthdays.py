@@ -5,6 +5,7 @@ from dataclasses import dataclass
 
 BIRTHDAY_DATA_PATH = 'data/fivethirtyeight-US-births-2000-2014.csv'
 
+
 @dataclass
 class Birthday:
     month: str
@@ -12,6 +13,7 @@ class Birthday:
 
     def __str__(self):
         return f"{self.month}/{self.day}"
+
 
 def get_all_birthdays():
     with open(BIRTHDAY_DATA_PATH, 'r') as f:
