@@ -8,8 +8,9 @@ import sys
 
 from bs4 import BeautifulSoup
 import requests
+from tqdm import tqdm
 
-from birthdays import ALL_BIRTHDAYS, Birthday
+from birthdays import get_all_birthdays, Birthday
 
 
 CC_BASE_URL = 'https://livingat.wsu.edu/cardinfo/deposit/default.aspx'
@@ -70,34 +71,41 @@ def check_birthday(r) -> bool | str:
 async def lookup_wsu_ids(wsu_id):
     hidden_inputs = get_hidden_inputs()
 
+    all_birthdays = get_all_birthdays()
     checks = [
         create_request(hidden_inputs, wsu_id, birthday)
-        for birthday in ALL_BIRTHDAYS
+        for birthday in all_birthdays
     ]
 
-    for request in as_completed(checks, timeout=10*60):
-        birthday = request.birthday
+    with tqdm(total=len(all_birthdays)) as progress:
+        for i, request in enumerate(as_completed(checks)):
+            progress.update(1)
 
-        try:
-            name = check_birthday(request.result())
-        except Exception:
-            print(f"Failed on {birthday}")
-            raise
+            birthday = request.birthday
 
-        if name:
-            if not isinstance(name, str):
-                name = "<name not rendered, try again>"
-            student = Student(wsu_id, name, birthday)
-            print(f"Found {student}")
-            return student
-    else:
-        print(f"No results found for {wsu_id}")
+            try:
+                name = check_birthday(request.result())
+            except Exception:
+                print(f"Failed on {birthday}")
+                raise
+
+            if name:
+                if not isinstance(name, str):
+                    name = "<Name not rendered, try again>"
+                student = Student(wsu_id, name, birthday)
+                progress.update(len(all_birthdays) - i - 1)
+                break
+        else:
+            print(f"No results found for {wsu_id}")
+
+    return student
 
 
 def main():
     for arg in sys.argv[1:]:
         print(f"Processing {arg}")
-        asyncio.run(lookup_wsu_ids(arg))
+        student = asyncio.run(lookup_wsu_ids(arg))
+        print(f"Found {student}")
 
 
 if __name__ == '__main__':
