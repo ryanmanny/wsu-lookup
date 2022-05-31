@@ -15,4 +15,5 @@ docker run wsu-lookup [ids ...]
 
 ## TODO
 
+- Add custom message for deactivated accounts
 - Fix hang at the end of execution
