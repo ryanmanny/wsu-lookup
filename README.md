@@ -1,6 +1,6 @@
 # WSU Lookup
 
-Bruteforces a [leaky WSU page](https://livingat.wsu.edu/cardinfo/deposit/default.aspx) to discover a student's name and birthday using only their WSU ID.
+Bruteforces a [leaky WSU page](https://livingat.wsu.edu/cardinfo/deposit/default.aspx) to look up a student's name and birthday from only their WSU ID.
 
 I do not endorse using this program for nefarious purposes, it is developed only as proof of an unintended feature of the WSU website which has existed for many years.
 
@@ -10,7 +10,7 @@ If any university staff want me to take this repo down, please email me.
 
 ```
 docker build . --tag wsu-lookup
-docker run -it wsu-lookup [ids ...]
+docker run wsu-lookup [ids ...]
 ```
 
 ## TODO
