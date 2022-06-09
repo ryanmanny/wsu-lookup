@@ -8,9 +8,10 @@ If any university staff want me to take this repo down, please email me.
 
 ## Usage
 
-```
-docker build . --tag wsu-lookup
-docker run -it wsu-lookup [ids ...]
+```bash
+# main.py [-h] [--quiet] ids [ids ...]
+docker run --rm -it $(docker build -q .) 11525552
+# That was my ID, but I'm out of the system so it doesn't work
 ```
 
 ## TODO
